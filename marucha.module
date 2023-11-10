@@ -11,6 +11,22 @@
 function marucha_cron() {
   $title1 = 'Entity APIで作成した記事ですよね';
 
+// test
+$url = 'https://umayadia-apisample.azurewebsites.net/api/persons';
+
+// ストリームコンテキストのオプションを作成
+$options = array(
+    // HTTPコンテキストオプションをセット
+    'http' => array(
+        'method'=> 'GET',
+        'header'=> 'Content-type: application/json; charset=UTF-8' //JSON形式で表示
+    )
+);
+$context = stream_context_create($options);
+$title1 = file_get_contents($url, false,$context);
+echo $title1;
+//
+
   // ノードストレージの読み込み
   $nodeStorage = \Drupal::entityTypeManager()->getStorage('node');
 
