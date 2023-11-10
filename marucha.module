@@ -1,0 +1,33 @@
+<?php
+
+/**
+ * @file
+ * Marucha hooks.
+ */
+
+/**
+ * Implements hook_cron().
+ */
+function marucha_cron() {
+
+  // ノードストレージの読み込み
+  $nodeStorage = \Drupal::entityTypeManager()->getStorage('node');
+
+  // ID指定でノードエンティティを読み込む
+  $node = $nodeStorage->load(1);
+  \Drupal::messenger()->addStatus('読み込んだノード: ' . $node->id() . ', ' . $node->getTitle());
+
+  // ノードエンティティの作成と保存
+  $entityType = 'article';
+  $entityTitle = 'Entity APIで作成した記事2'
+
+  $newNode = $nodeStorage->create([
+    'type' => $entityType,
+    'title' => $entityTitle,
+  ]);
+  $newNode->save();
+  \Drupal::messenger()->addStatus('Entity APIで作成したノード: ' . $newNode->id() . ', ' . $newNode->getTitle());
+
+  // ノードエンティティの削除
+  // $newNode->delete();
+}
