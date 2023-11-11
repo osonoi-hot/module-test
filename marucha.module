@@ -10,22 +10,27 @@
  */
 function marucha_cron() {
   $title1 = 'Entity APIで作成した記事ですよね';
-
 // test
-$url = 'https://umayadia-apisample.azurewebsites.net/api/persons';
+// APIのエンドポイント
+$apiUrl = 'https://api.thecatapi.com/v1/images/search';
 
-// ストリームコンテキストのオプションを作成
-$options = array(
-    // HTTPコンテキストオプションをセット
-    'http' => array(
-        'method'=> 'GET',
-        'header'=> 'Content-type: application/json; charset=UTF-8' //JSON形式で表示
-    )
-);
-$context = stream_context_create($options);
-$title1 = file_get_contents($url, false,$context);
-echo $title1;
-//
+// cURLを初期化
+$ch = curl_init();
+
+// cURLオプションを設定
+curl_setopt($ch, CURLOPT_URL, $apiUrl);
+curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+
+// リクエストを実行し、レスポンスを取得
+$response = curl_exec($ch);
+
+// cURLセッションを閉じる
+curl_close($ch);
+
+// レスポンスをJSONデコード
+$data = json_decode($response, true);
+$title1 = $data[0]['url'];
+// end of Test
 
   // ノードストレージの読み込み
   $nodeStorage = \Drupal::entityTypeManager()->getStorage('node');
